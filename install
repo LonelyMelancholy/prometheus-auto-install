@@ -1,4 +1,5 @@
-Prometheus
+#!/usr/bin/env bash
+
 # Создаем пользователя без домашней директории и шелла
 sudo useradd -r -s /bin/false prometheus
 # Скачиваем распаковываем
