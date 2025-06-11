@@ -1,0 +1,41 @@
+Prometheus
+# Создаем пользователя без домашней директории и шелла
+sudo useradd -r -s /bin/false prometheus
+# Скачиваем распаковываем
+wget
+tar -xvf
+# Создаем папки
+sudo mkdir /etc/prometheus
+sudo mkdir /var/lib/prometheus
+# Копируем в директорию к бинарникам
+sudo cp prometheus promtool /usr/local/bin/
+sudo cp prometheus.yml /etc/prometheus/
+# Изменяем владельца
+sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+sudo chown prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promtool
+# Если надо редактируем конфиг с нодами
+# Создаем systemd daemon
+sudo nano /etc/systemd/system/prometheus.service
+
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/var/lib/prometheus/ \
+  --storage.tsdb.retention.time=30d \
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# Запускаем
+sudo systemctl daemon-reload
+sudo systemctl enable --now prometheus
+sudo systemctl status prometheus
