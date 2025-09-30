@@ -12,8 +12,8 @@ sudo mkdir /etc/prometheus
 sudo mkdir /var/lib/prometheus
 
 # Копируем в директорию к бинарникам
-sudo cp prometheus promtool /usr/local/bin/
-sudo cp prometheus.yml /etc/prometheus/
+sudo cp prometheus-*/prometheus prometheus-*/promtool /usr/local/bin/
+sudo cp prometheus-*/prometheus.yml /etc/prometheus/
 
 # Изменяем владельца
 sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
